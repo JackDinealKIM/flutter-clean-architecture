@@ -24,7 +24,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final photoProvider = PhotoProvider.of(context);
+    final viewModel = PhotoProvider.of(context).viewModel;
 
     return Scaffold(
       appBar: AppBar(
@@ -47,14 +47,14 @@ class _HomeScreenState extends State<HomeScreen> {
                       borderRadius: BorderRadius.all(Radius.circular(10.0))),
                   suffix: IconButton(
                     onPressed: () async {
-                      photoProvider.fetch(_controller.text);
+                      viewModel.fetch(_controller.text);
                     },
                     icon: Icon(Icons.search),
                   )),
             ),
           ),
           StreamBuilder<List<Photo>>(
-            stream: photoProvider.photoStream,
+            stream: viewModel.photoStream,
             builder: (context, snapshot) {
               if(!snapshot.hasData) {
                 return const CircularProgressIndicator();

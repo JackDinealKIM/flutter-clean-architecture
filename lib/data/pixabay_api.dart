@@ -1,12 +1,14 @@
 import 'dart:convert';
+import 'package:clean_architecture/data/photo_api_repository.dart';
 import 'package:http/http.dart' as http;
 
 import '../model/pixabay.dart';
 
-class PixabayApi {
+class PixabayApi extends PhotoApiRepository {
   final baseUrl = 'https://pixabay.com/api/';
   final key = '28491446-5f9dca4fd56a91a8e5ecfb1ce';
 
+  @override
   Future<List<Photo>> fetch(String query) async {
     var url = Uri.parse(
         '$baseUrl?key=$key&q=$query&image_type=photo');

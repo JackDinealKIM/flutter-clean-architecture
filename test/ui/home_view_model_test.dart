@@ -1,8 +1,8 @@
-import 'package:clean_architecture/data/photo_api_repository.dart';
-import 'package:clean_architecture/data/pixabay_api.dart';
-import 'package:clean_architecture/model/pixabay.dart';
-import 'package:clean_architecture/model/pixabay_photo.dart';
-import 'package:clean_architecture/ui/home_view_model.dart';
+import 'package:clean_architecture/data/data_source/result.dart';
+import 'package:clean_architecture/domain/repository/photo_api_repository.dart';
+import 'package:clean_architecture/data/repository/photo_api_repository_impl.dart';
+import 'package:clean_architecture/domain/model/pixabay_photo.dart';
+import 'package:clean_architecture/presentation/home/home_view_model.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart' as http;
 
@@ -20,9 +20,9 @@ void main() {
 
 class FakePhotoApiepository extends PhotoApiRepository {
   @override
-  Future<List<PixabayPhoto>> fetch(String query, {http.Client? client}) async {
+  Future<Result<List<PixabayPhoto>>> fetch(String query, {http.Client? client}) async {
     Future.delayed(const Duration(seconds: 1));
-    return fakeJson.map((e) => PixabayPhoto.fromJson(e)).toList();
+    return Result.success(fakeJson.map((e) => PixabayPhoto.fromJson(e)).toList());
   }
 }
 

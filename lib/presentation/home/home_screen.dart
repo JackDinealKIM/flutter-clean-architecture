@@ -1,8 +1,8 @@
+import 'dart:async';
 import 'dart:convert';
 
-import 'package:clean_architecture/model/pixabay_photo.dart';
-import 'package:clean_architecture/ui/home_view_model.dart';
-import 'package:clean_architecture/ui/widget/photo_widget.dart';
+import 'package:clean_architecture/presentation/home/home_view_model.dart';
+import 'package:clean_architecture/presentation/home/components/photo_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -15,10 +15,28 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   final _controller = TextEditingController();
+  StreamSubscription? _streamSubscription;
+
+  @override
+  void initState() {
+    super.initState();
+
+    Future.microtask(() => {
+      _streamSubscription = context.read<HomeViewModel>().eventStream.listen((event) {
+        event.when(showSnackbar: (msg) {
+          final snackBar = SnackBar(content: Text(msg),);
+          ScaffoldMessenger.of(context).showSnackBar(snackBar);
+        });
+      })
+    });
+
+
+  }
 
   @override
   void dispose() {
     _controller.dispose();
+    _streamSubscription?.cancel();
     super.dispose();
   }
 

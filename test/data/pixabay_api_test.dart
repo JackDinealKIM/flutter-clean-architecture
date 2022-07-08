@@ -1,4 +1,7 @@
-import 'package:clean_architecture/data/pixabay_api.dart';
+import 'package:clean_architecture/data/data_source/pixabay_api.dart';
+import 'package:clean_architecture/data/data_source/result.dart';
+import 'package:clean_architecture/data/repository/photo_api_repository_impl.dart';
+import 'package:clean_architecture/domain/model/pixabay_photo.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
 import 'package:http/http.dart' as http;
@@ -9,17 +12,18 @@ import 'pixabay_api_test.mocks.dart';
 @GenerateMocks([http.Client])
 void main() {
   test('pixabay api call', () async {
-    final api = PixabayApi();
     final client = MockClient();
+    final api = PhotoApiRepositoryImpl(PixabayApi(client));
+
 
     const query = 'iphone';
     var url = Uri.parse(
         '${PixabayApi.baseUrl}?key=${PixabayApi.key}&q=$query&image_type=photo');
     when(client.get(url)).thenAnswer((_) async => http.Response(fakeJsonBody, 200));
 
-    final result = await api.fetch(query, client: client);
-    expect(result.first.id, 298243);
-    expect(result.length, 20);
+    final Result<List<PixabayPhoto>> result = await api.fetch(query);
+    expect((result as Success<List<PixabayPhoto>>).data.first.id, 298243);
+    expect((result as Success<List<PixabayPhoto>>).data.length, 20);
 
     verify(client.get(url));
   });

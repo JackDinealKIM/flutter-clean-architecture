@@ -1,6 +1,5 @@
 
 import 'dart:async';
-import 'dart:collection';
 import 'package:clean_architecture/data/data_source/result.dart';
 import 'package:clean_architecture/domain/model/pixabay_photo.dart';
 import 'package:clean_architecture/domain/use_case/get_photos_use_case.dart';

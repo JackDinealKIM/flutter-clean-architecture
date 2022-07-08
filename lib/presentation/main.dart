@@ -1,4 +1,5 @@
 import 'package:clean_architecture/data/data_source/pixabay_api.dart';
+import 'package:clean_architecture/domain/use_case/get_photos_use_case.dart';
 import 'package:clean_architecture/presentation/home/home_screen.dart';
 import 'package:clean_architecture/presentation/home/home_view_model.dart';
 import 'package:flutter/material.dart';
@@ -23,7 +24,7 @@ class MyApp extends StatelessWidget {
       ),
       home: ChangeNotifierProvider(
         create: (_) =>
-            HomeViewModel(PhotoApiRepositoryImpl(PixabayApi(http.Client()))),
+            HomeViewModel(GetPhotosUseCase(PhotoApiRepositoryImpl(PixabayApi(http.Client())))),
         child: const HomeScreen(),
       ),
     );

@@ -1,6 +1,7 @@
 import 'package:clean_architecture/data/photo_api_repository.dart';
 import 'package:clean_architecture/data/pixabay_api.dart';
 import 'package:clean_architecture/model/pixabay.dart';
+import 'package:clean_architecture/model/pixabay_photo.dart';
 import 'package:clean_architecture/ui/home_view_model.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart' as http;
@@ -13,7 +14,9 @@ void main() {
     await viewModel.fetch('apple');
     await viewModel.fetch('iphone');
 
-    final result = fakeJson.map((e) => Photo.fromJson(e)).toList();
+    final result = fakeJson.map((e) => PixabayPhoto.fromJson(e)).toList();
+
+    PixabayPhoto(id: 1, tags: '', previewUrl: '').toJson();
 
     expect(viewModel.photoStream, emitsInOrder([
       // isA<List<Photo>>(), // 빈리스트인지 체크
@@ -26,9 +29,9 @@ void main() {
 
 class FakePhotoApiepository extends PhotoApiRepository {
   @override
-  Future<List<Photo>> fetch(String query, {http.Client? client}) async {
+  Future<List<PixabayPhoto>> fetch(String query, {http.Client? client}) async {
     Future.delayed(const Duration(seconds: 1));
-    return fakeJson.map((e) => Photo.fromJson(e)).toList();
+    return fakeJson.map((e) => PixabayPhoto.fromJson(e)).toList();
   }
 }
 

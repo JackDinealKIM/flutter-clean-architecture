@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:clean_architecture/data/photo_provider.dart';
 import 'package:clean_architecture/data/pixabay_api.dart';
 import 'package:clean_architecture/model/pixabay.dart';
+import 'package:clean_architecture/model/pixabay_photo.dart';
 import 'package:clean_architecture/ui/widget/photo_widget.dart';
 import 'package:flutter/material.dart';
 
@@ -53,7 +54,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   )),
             ),
           ),
-          StreamBuilder<List<Photo>>(
+          StreamBuilder<List<PixabayPhoto>>(
             stream: viewModel.photoStream,
             builder: (context, snapshot) {
               if(!snapshot.hasData) {

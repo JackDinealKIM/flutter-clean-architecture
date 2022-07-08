@@ -18,5 +18,10 @@ samples, guidance on mobile development, and a full API reference.
 
 # mocking
 ## https://docs.flutter.dev/cookbook/testing/unit/mocking
+
+## json serialize 처리
 ### flutter pub run build_runner build
+
+## 모든 테스트 진행
+### flutter test
 

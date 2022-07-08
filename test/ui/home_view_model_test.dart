@@ -12,18 +12,9 @@ void main() {
     // final viewModel = HomeViewModel(PixabayApi());
     final viewModel = HomeViewModel(FakePhotoApiepository());
     await viewModel.fetch('apple');
-    await viewModel.fetch('iphone');
 
     final result = fakeJson.map((e) => PixabayPhoto.fromJson(e)).toList();
-
-    PixabayPhoto(id: 1, tags: '', previewUrl: '').toJson();
-
-    expect(viewModel.photoStream, emitsInOrder([
-      // isA<List<Photo>>(), // 빈리스트인지 체크
-      equals([]), // 빈리스트인지 체크
-      equals(result),
-      equals(result),
-    ]));
+    expect(viewModel.photos, result);
   });
 }
 

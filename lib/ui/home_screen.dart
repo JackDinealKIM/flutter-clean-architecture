@@ -27,7 +27,7 @@ class _HomeScreenState extends State<HomeScreen> {
     // old style
     // final viewModel = Provider.of<HomeViewModel>(context);
     // new style
-    final viewModel = context.watch<HomeViewModel>();
+    // final viewModel = context.watch<HomeViewModel>();
 
     return Scaffold(
       appBar: AppBar(
@@ -50,24 +50,18 @@ class _HomeScreenState extends State<HomeScreen> {
                       borderRadius: BorderRadius.all(Radius.circular(10.0))),
                   suffix: IconButton(
                     onPressed: () async {
-                      viewModel.fetch(_controller.text);
+                      context.read<HomeViewModel>().fetch(_controller.text);
                     },
                     icon: Icon(Icons.search),
                   )),
             ),
           ),
-          StreamBuilder<List<PixabayPhoto>>(
-            stream: viewModel.photoStream,
-            builder: (context, snapshot) {
-              if(!snapshot.hasData) {
-                return const CircularProgressIndicator();
-              }
-
-              final photos = snapshot.data!;
+          Consumer<HomeViewModel>(
+            builder: (_, viewModel, child) {
               return Expanded(
                 child: GridView.builder(
                   padding: const EdgeInsets.all(16.0),
-                  itemCount: photos.length,
+                  itemCount: viewModel.photos.length,
                   gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisCount: 2,
                     crossAxisSpacing: 16,
@@ -75,13 +69,13 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                   itemBuilder: (context, index) {
                     return PhotoWidget(
-                      photo: photos[index],
+                      photo: viewModel.photos[index],
                     );
                   },
                 ),
               );
-            }
-          )
+            },
+          ),
         ],
       ),
     );
